@@ -574,3 +574,55 @@ h3 {
         box-shadow: none;
     }
 }
+
+/* Result Overlay */
+.result-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.result-overlay.show {
+    opacity: 1;
+    pointer-events: auto; /* To capture clicks if needed, or leave none if we just want it visual */
+}
+
+.result-message {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 1rem 3rem;
+    border-radius: 1rem;
+    transform: scale(0.8);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.result-overlay.show .result-message {
+    transform: scale(1);
+}
+
+.result-overlay.accept .result-message {
+    color: var(--success);
+    border: 3px solid var(--success);
+    background: rgba(16, 185, 129, 0.1);
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+}
+
+.result-overlay.reject .result-message {
+    color: var(--danger);
+    border: 3px solid var(--danger);
+    background: rgba(239, 68, 68, 0.1);
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
+}
