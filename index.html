@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automata Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <nav class="sidebar">
+            <h1 class="logo">Auto<span>Sim</span></h1>
+            <ul class="nav-links">
+                <li data-target="dfa" class="active">Finite Automata</li>
+                <li data-target="pda">Pushdown Automata</li>
+                <li data-target="tm">Turing Machine</li>
+                <li data-target="custom" class="custom-btn" style="margin-top: auto; border: 1px dashed var(--accent-blue);">Build Custom ⚙️</li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <header class="topbar">
+                <div class="machine-info">
+                    <h2 id="machine-title">Finite Automata (DFA)</h2>
+                    <p id="machine-desc">Accepts binary strings with an even number of 0s.</p>
+                </div>
+                <div class="controls">
+                    <input type="text" id="input-string" placeholder="Enter string (e.g., 0101)">
+                    <button id="btn-start" class="btn primary">Start</button>
+                    <button id="btn-step" class="btn secondary" disabled>Step</button>
+                    <button id="btn-reset" class="btn outline" disabled>Reset</button>
+                </div>
+            </header>
+            
+            <div class="simulation-area">
+                <div class="visualizer-container">
+                    <div id="graph-container" class="graph-container">
+                        <svg id="edges" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;">
+                            <defs>
+                                <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                  <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(255,255,255,0.4)" />
+                                </marker>
+                                <marker id="arrow-active" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+                                </marker>
+                            </defs>
+                        </svg>
+                        <!-- State nodes will be injected here -->
+                    </div>
+                </div>
+                
+                <div class="data-structures">
+                    <div class="tape-container">
+                        <h3>Input Tape</h3>
+                        <div id="tape-wrapper" class="tape-wrapper">
+                            <div id="tape" class="tape"></div>
+                            <div id="tape-head" class="tape-head"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="stack-container" id="stack-panel" style="display: none;">
+                        <h3>Stack</h3>
+                        <div id="stack" class="stack"></div>
+                    </div>
+                </div>
+                
+                <div class="status-panel">
+                    <h3>Simulation Log</h3>
+                    <div id="status-message" class="status-message">Ready</div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Builder Modal -->
+    <div id="builder-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Build Custom Machine</h2>
+                <span id="close-modal" class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Machine Type</label>
+                    <select id="builder-type" class="form-input">
+                        <option value="DFA">Finite Automata (DFA)</option>
+                        <option value="PDA">Pushdown Automata (PDA)</option>
+                        <option value="TM">Turing Machine (TM)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>States (comma separated)</label>
+                    <input type="text" id="builder-states" class="form-input" value="q0,q1" placeholder="e.g. q0,q1">
+                </div>
+                <div class="form-group" id="builder-alphabet-group">
+                    <label>Input Alphabet (comma separated)</label>
+                    <input type="text" id="builder-alphabet" class="form-input" value="0,1" placeholder="e.g. 0,1">
+                </div>
+                <div class="form-group" id="builder-stack-group" style="display:none;">
+                    <label>Stack/Tape Alphabet (comma separated)</label>
+                    <input type="text" id="builder-stack-alphabet" class="form-input" value="Z,a,b" placeholder="e.g. Z,a,b">
+                </div>
+                <div class="form-group">
+                    <label>Start State</label>
+                    <input type="text" id="builder-start" class="form-input" value="q0">
+                </div>
+                <div class="form-group">
+                    <label>Accept States (comma separated)</label>
+                    <input type="text" id="builder-accept" class="form-input" value="q1" placeholder="e.g. q1">
+                </div>
+                
+                <div class="transitions-section">
+                    <div class="transitions-header">
+                        <label>Transitions</label>
+                        <button id="btn-add-transition" class="btn secondary small-btn">+ Add</button>
+                    </div>
+                    <div id="transitions-container">
+                        <!-- Dynamic transitions -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-save-machine" class="btn primary">Build & Load</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="simulator.js"></script>
+    <script src="ui.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
