@@ -272,11 +272,9 @@ function finishSimulation(isAccepted) {
     if (isAccepted) {
         ui.log("String ACCEPTED! 🎉", 'success');
         ui.highlightState(currentConfig.machine.currentState, true);
-        alert(`The string"${inputEl.value}" has been accepted by ${currentConfig.title}`)
     } else {
         ui.log("String REJECTED. ❌", 'error');
         ui.highlightState(currentConfig.machine.currentState, false, true);
-         alert(`The string"${inputEl.value}" has been rejected by ${currentConfig.title}`)
     }
 }
 
